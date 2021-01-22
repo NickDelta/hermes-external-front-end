@@ -1,0 +1,13 @@
+keycloak:
+  realm: hermes
+  resource: external-frontend
+  public-client: true
+  principal-attribute: preferred_username
+spring:
+  jackson:
+    property-naming-strategy: com.fasterxml.jackson.databind.PropertyNamingStrategy.SnakeCaseStrategy
+server:
+  port: 8083
+logging:
+    level:
+      root: info
