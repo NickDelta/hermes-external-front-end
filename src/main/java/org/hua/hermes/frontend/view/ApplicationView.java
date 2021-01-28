@@ -69,12 +69,14 @@ public class ApplicationView extends Crud<Application>
     }
 
     public void setupEventListeners() {
-
         //Handling only update
         this.addSaveListener(e -> {
             var application = e.getItem();
             if (!presenter.update(application)) {
                 this.cancelSave();
+            } else {
+                if (!presenter.save(application))
+                    this.cancelSave();
             }
         });
 
