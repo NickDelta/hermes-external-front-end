@@ -38,7 +38,10 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
                 .build()
                 .toString();
 
-        return client.exchange(url,HttpMethod.GET,null,
+        return client.exchange(
+                url,
+                HttpMethod.GET,
+                null,
                 new ParameterizedTypeReference<List<Application>>(){}).getBody();
     }
 
@@ -50,8 +53,11 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
                 .build()
                 .toString();
 
-        return Optional.ofNullable(client.exchange(url, HttpMethod.GET, null,
-                new ParameterizedTypeReference<Application>() {}).getBody());
+        return Optional.ofNullable(client.exchange(
+                url,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<Application>(){}).getBody());
     }
 
     @Override
@@ -62,7 +68,9 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
                 .build()
                 .toString();
 
-        return client.exchange(url,HttpMethod.GET,null,
+        return client.exchange(url,
+                HttpMethod.GET,
+                null,
                 new ParameterizedTypeReference<Integer>(){}).getBody();
     }
 
@@ -76,7 +84,11 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 
         HttpEntity<Application> request = new HttpEntity<>(application);
 
-        client.exchange(url, HttpMethod.POST, request, new ParameterizedTypeReference<Application>() {});
+        client.exchange(
+                url,
+                HttpMethod.POST,
+                request,
+                new ParameterizedTypeReference<Void>(){});
         return true;
     }
 
@@ -90,7 +102,10 @@ public class ApplicationRepositoryImpl implements ApplicationRepository {
 
         HttpEntity<Application> request = new HttpEntity<>(application);
 
-        client.exchange(url, HttpMethod.PUT, request, new ParameterizedTypeReference<Application>() {});
+        client.exchange(url,
+                HttpMethod.PUT,
+                request,
+                new ParameterizedTypeReference<Void>(){});
         return true;
     }
 }

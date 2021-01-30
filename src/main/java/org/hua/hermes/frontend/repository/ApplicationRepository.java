@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ApplicationRepository {
-    List<Application> findAll(int offset, int limit);
     Optional<Application> findById(String id);
+    List<Application> findAll(int offset, int limit);
     Integer count();
     boolean save(Application application);
     boolean update(Application application);
