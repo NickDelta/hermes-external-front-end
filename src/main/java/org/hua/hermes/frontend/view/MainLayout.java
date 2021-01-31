@@ -85,6 +85,10 @@ public class MainLayout extends AppLayout
         NaviMenu menu = new NaviMenu();
         menu.addNaviItem(VaadinIcon.HOME,"Home",HomeView.class);
 
+        if(VaadinSecurity.check().hasRole("ROLE_CITIZEN")){
+            menu.addNaviItem(VaadinIcon.FILE,"My Applications", ApplicationsView.class);
+        }
+
         return menu;
     }
 

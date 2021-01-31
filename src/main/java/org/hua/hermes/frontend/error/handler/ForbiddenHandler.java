@@ -1,0 +1,28 @@
+package org.hua.hermes.frontend.error.handler;
+
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Tag;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.ErrorParameter;
+import com.vaadin.flow.router.HasErrorParameter;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.web.client.HttpClientErrorException;
+
+import javax.servlet.http.HttpServletResponse;
+
+@Tag(Tag.DIV)
+@Log4j2
+public class ForbiddenHandler
+  extends Component
+  implements HasErrorParameter<HttpClientErrorException.Forbidden>
+{
+
+  @Override
+  public int setErrorParameter(BeforeEnterEvent event, ErrorParameter<HttpClientErrorException.Forbidden> parameter)
+  {
+    log.error(parameter.getException());
+    event.rerouteTo("403");
+    return HttpServletResponse.SC_FORBIDDEN;
+  }
+
+}
