@@ -10,6 +10,7 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.server.VaadinSession;
 import org.hua.hermes.backend.entity.Application;
 import org.hua.hermes.backend.entity.ApplicationState;
+import org.hua.hermes.frontend.component.TrimmedTextArea;
 import org.hua.hermes.frontend.constant.MessageConstants;
 import org.hua.hermes.frontend.repository.OrganizationRepository;
 import org.hua.hermes.frontend.view.presenter.OrganizationCrudPresenter;
@@ -39,7 +40,7 @@ public class ApplicationCrudEditorFactory {
         organization.setItemLabelGenerator(GroupRepresentation::getName);
         organization.getElement().setAttribute("colspan", "2");
 
-        TextArea details = new TextArea("Details");
+        TrimmedTextArea details = new TrimmedTextArea("Details");
         details.getElement().setAttribute("colspan", "2");
 
         DateTimePicker appointmentDateTime = new DateTimePicker();
