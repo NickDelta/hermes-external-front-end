@@ -1,4 +1,4 @@
-package org.hua.hermes.frontend.view.editor;
+package org.hua.hermes.frontend.bean.editor;
 
 import com.vaadin.componentfactory.enhancedcrud.BinderCrudEditor;
 import com.vaadin.componentfactory.enhancedcrud.CrudEditor;
@@ -7,9 +7,10 @@ import com.vaadin.flow.component.datetimepicker.DateTimePicker;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.server.VaadinSession;
 import org.hua.hermes.backend.entity.Application;
 import org.hua.hermes.backend.entity.ApplicationState;
-import org.hua.hermes.frontend.constant.ValidationConstants;
+import org.hua.hermes.frontend.constant.MessageConstants;
 import org.hua.hermes.frontend.repository.OrganizationRepository;
 import org.hua.hermes.frontend.view.presenter.OrganizationCrudPresenter;
 import org.keycloak.representations.idm.GroupRepresentation;
@@ -21,7 +22,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.Locale;
 
 @Configuration
 public class ApplicationCrudEditorFactory {
@@ -45,10 +45,13 @@ public class ApplicationCrudEditorFactory {
         DateTimePicker appointmentDateTime = new DateTimePicker();
         appointmentDateTime.setLabel("Appointment Date");
         appointmentDateTime.getElement().setAttribute("colspan", "2");
-        appointmentDateTime.setLocale(new Locale("el")); //FIXME not flexible locale
+        appointmentDateTime.setLocale(VaadinSession.getCurrent().getLocale());
 
         appointmentDateTime.setStep(Duration.ofMinutes(15));
-        appointmentDateTime.setMin(LocalDateTime.now());
+
+        //Disabled because at the moment there is no mechanism for
+        //auto-rejecting or auto-competing applications.
+        //appointmentDateTime.setMin(LocalDateTime.now());
 
         var layout = new FormLayout(organization,details,appointmentDateTime);
 
@@ -56,7 +59,7 @@ public class ApplicationCrudEditorFactory {
         var editor = new BinderCrudEditor<>(binder, layout);
 
         binder.forField(organization)
-              .asRequired(ValidationConstants.REQUIRED_TEXT)
+              .asRequired(MessageConstants.REQUIRED)
               .withValidator(org -> {
                   if(editor.getItem() == null || editor.getItem().getId() == null) return true;
                   return editor.getItem().getOrganization().equals(org.getId());
@@ -77,17 +80,17 @@ public class ApplicationCrudEditorFactory {
               }));
 
         binder.forField(appointmentDateTime)
-              .asRequired(ValidationConstants.REQUIRED_TEXT)
+              .asRequired(MessageConstants.REQUIRED)
               .bind(application -> {
                   if (application.getAppointmentDate() == null) return null;
                   return application.getAppointmentDate().toInstant()
-                                  .atZone(ZoneId.systemDefault()) //FIXME zone issue
+                                  .atZone(VaadinSession.getCurrent().getAttribute(ZoneId.class))
                                   .toLocalDateTime();
                       } ,
                       (application, value) ->
                               application.setAppointmentDate(Date.
-                                      from(value.atZone(ZoneId.systemDefault()).toInstant()))); //FIXME zone issue
-
+                                      from(value.atZone(VaadinSession.getCurrent().getAttribute(ZoneId.class))
+                                              .toInstant())));
 
         return editor;
 
