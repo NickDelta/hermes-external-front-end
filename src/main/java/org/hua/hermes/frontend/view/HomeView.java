@@ -80,7 +80,7 @@ public class HomeView extends VerticalLayout {
                     "along with this program. If not, see the license at <a href=\"https://www.gnu.org/licenses\">https://www.gnu.org/licenses</a><p>" +
                 "</div>");
 
-        Anchor repository = new Anchor("https://github.com/NickDelta/hermes-internal-front-end", UIUtils.createButton("Go to this project's GitHub repository", VaadinIcon.EXTERNAL_LINK));
+        Anchor repository = new Anchor("https://github.com/NickDelta/hermes-external-front-end", UIUtils.createButton("Go to this project's GitHub repository", VaadinIcon.EXTERNAL_LINK));
         Anchor blog = new Anchor("https://coderapper.blog", UIUtils.createButton("Visit CodeRapper Blog", VaadinIcon.EXTERNAL_LINK));
 
         FlexBoxLayout links = new FlexBoxLayout(repository,blog);
